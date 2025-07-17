@@ -1,9 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { LoginDialog } from "./LoginDialog";
+import { UserMenu } from "./UserMenu";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user } = useAuth();
 
   const navigation = [
     { name: 'Features', href: '#features' },
@@ -38,12 +42,20 @@ export const Header = () => {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" className="text-primary-foreground hover:text-primary-foreground hover:bg-white/10">
-              Sign In
-            </Button>
-            <Button variant="medical" className="bg-white text-primary hover:bg-white/90">
-              Get Started
-            </Button>
+            {user ? (
+              <UserMenu />
+            ) : (
+              <>
+                <LoginDialog>
+                  <Button variant="ghost" className="text-primary-foreground hover:text-primary-foreground hover:bg-white/10">
+                    Sign In
+                  </Button>
+                </LoginDialog>
+                <Button variant="medical" className="bg-white text-primary hover:bg-white/90">
+                  Get Started
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -74,12 +86,20 @@ export const Header = () => {
                 </a>
               ))}
               <div className="flex flex-col space-y-2 px-3 py-2">
-                <Button variant="ghost" className="text-primary-foreground hover:text-primary-foreground hover:bg-white/10 justify-start">
-                  Sign In
-                </Button>
-                <Button variant="medical" className="bg-white text-primary hover:bg-white/90">
-                  Get Started
-                </Button>
+                {user ? (
+                  <UserMenu />
+                ) : (
+                  <>
+                    <LoginDialog>
+                      <Button variant="ghost" className="text-primary-foreground hover:text-primary-foreground hover:bg-white/10 justify-start">
+                        Sign In
+                      </Button>
+                    </LoginDialog>
+                    <Button variant="medical" className="bg-white text-primary hover:bg-white/90">
+                      Get Started
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>

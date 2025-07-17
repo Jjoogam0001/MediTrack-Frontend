@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Users, BarChart3 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import heroImage from "@/assets/hero-image.jpg";
 
 export const Hero = () => {
+  const { user } = useAuth();
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background gradient */}
@@ -14,24 +16,52 @@ export const Hero = () => {
           {/* Left content */}
           <div className="text-center lg:text-left">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              <span className="text-primary-foreground">Streamline Your</span>
-              <br />
-              <span className="text-gradient">Patient Management</span>
+              {user ? (
+                <>
+                  <span className="text-primary-foreground">Welcome back,</span>
+                  <br />
+                  <span className="text-gradient">{user.name}</span>
+                </>
+              ) : (
+                <>
+                  <span className="text-primary-foreground">Streamline Your</span>
+                  <br />
+                  <span className="text-gradient">Patient Management</span>
+                </>
+              )}
             </h1>
             
             <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 max-w-2xl">
-              mediTrack empowers healthcare providers with intuitive patient management, 
-              secure data handling, and comprehensive analytics to deliver exceptional care.
+              {user ? (
+                `Ready to manage your patients efficiently? Access your dashboard to view appointments, patient records, and analytics.`
+              ) : (
+                `mediTrack empowers healthcare providers with intuitive patient management, 
+                secure data handling, and comprehensive analytics to deliver exceptional care.`
+              )}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button variant="hero" className="group">
-                Get Started Free
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Button>
-              <Button variant="outline" size="lg" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-                Schedule Demo
-              </Button>
+              {user ? (
+                <>
+                  <Button variant="hero" className="group">
+                    Go to Dashboard
+                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                  <Button variant="outline" size="lg" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+                    View Reports
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="hero" className="group">
+                    Get Started Free
+                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                  <Button variant="outline" size="lg" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+                    Schedule Demo
+                  </Button>
+                </>
+              )}
             </div>
             
             {/* Stats */}
